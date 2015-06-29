@@ -47,4 +47,15 @@
     </block>
   </script>
   </block-definition>
+  <block-definition category="sensing" s="IR sensor proximity" type="reporter">
+    <inputs></inputs>
+    <script>
+      <block s="doReport">
+        <block s="reportURL">
+          <l>localhost:1330/ir-sensor/proximity</l>
+        </block>
+      </block>
+    </script>
+    <watcher s="IR sensor proximity" style="normal"/>
+  </block-definition>
 </blocks>

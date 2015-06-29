@@ -25,11 +25,14 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.copyfile(f, self.wfile)
             f.close()
         else:
-            urllib2.urlopen("http://10.42.0.51:%d%s" % (EV3_PORT, self.path), timeout=5).read()
+            response = urllib2.urlopen("http://10.42.0.51:%d%s" % (EV3_PORT, self.path), timeout=5).read()
+            print '%s -> %s' % (self.path, response)
             self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
+            self.send_header('Content-Type', 'application/octet-stream')
+            self.send_header('Content-Length', str(len(response)))
+            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            self.wfile.write('OK')
+            self.wfile.write(response)
             self.wfile.close()
 
 class TCPServer(SocketServer.TCPServer):
