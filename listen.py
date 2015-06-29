@@ -46,6 +46,12 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             v = f.readline().strip()
             f.close()
             self.respond(v)
+        elif len(parts) == 2 and parts[0] == 'touch-sensor' and parts[1] == 'level':
+            dir = self.find_sensor('lego-ev3-touch')
+            f = open('%s/value0' % dir, 'r')
+            v = f.readline().strip()
+            f.close()
+            self.respond(v)
 
 class TCPServer(SocketServer.TCPServer):
     def server_bind(self):

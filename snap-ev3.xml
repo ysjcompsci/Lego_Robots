@@ -56,6 +56,15 @@
         </block>
       </block>
     </script>
-    <watcher s="IR sensor proximity" style="normal"/>
+  </block-definition>
+  <block-definition category="sensing" s="touch sensor level" type="reporter">
+    <inputs></inputs>
+    <script>
+      <block s="doReport">
+        <block s="reportURL">
+          <l>localhost:1330/touch-sensor/level</l>
+        </block>
+      </block>
+    </script>
   </block-definition>
 </blocks>
