@@ -1,0 +1,29 @@
+<blocks app="Snap! 4.0, http://snap.berkeley.edu" version="1">
+  <block-definition category="control" s="move motor %&apos;motor&apos; %&apos;degrees&apos; degrees at %&apos;speed&apos; speed" type="command">
+    <inputs>
+      <input type="%txt">a</input>
+      <input type="%n">360</input>
+      <input type="%n">100</input>
+    </inputs>
+    <script>
+      <block s="doRun">
+	<block s="reifyReporter">
+	  <autolambda>
+	    <block s="reportURL">
+	      <block s="reportJoinWords">
+		<list>
+		  <l>localhost:1330/motor/</l>
+		  <block var="motor"/>
+		  <l>/</l>
+		  <block var="degrees"/>
+		  <l>/</l>
+		  <block var="speed"/>
+		</list>
+	      </block>
+	    </block>
+	  </autolambda>
+	</block>
+      </block>
+    </script>
+  </block-definition>
+</blocks>
