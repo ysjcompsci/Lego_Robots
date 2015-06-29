@@ -67,4 +67,14 @@
       </block>
     </script>
   </block-definition>
+  <block-definition category="sensing" s="color sensor ambient level" type="reporter">
+    <inputs></inputs>
+    <script>
+      <block s="doReport">
+        <block s="reportURL">
+          <l>localhost:1330/color-sensor/ambient-level</l>
+        </block>
+      </block>
+    </script>
+  </block-definition>
 </blocks>

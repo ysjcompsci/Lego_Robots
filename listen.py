@@ -10,6 +10,19 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+
+    color_sensor_mode = None
+
+    def ensure_color_sensor_mode(self, dir, mode):
+        if self.color_sensor_mode == mode:
+            return
+
+        f = open('%s/mode' % dir, 'w')
+        print>>f,mode
+        f.close()
+
+        self.color_sensor_mode = mode
+
     def respond(self, reply):
         self.send_response(200)
         self.send_header('Content-Type', 'text/plain')
@@ -48,6 +61,13 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.respond(v)
         elif len(parts) == 2 and parts[0] == 'touch-sensor' and parts[1] == 'level':
             dir = self.find_sensor('lego-ev3-touch')
+            f = open('%s/value0' % dir, 'r')
+            v = f.readline().strip()
+            f.close()
+            self.respond(v)
+        elif len(parts) == 2 and parts[0] == 'color-sensor' and parts[1] == 'ambient-level':
+            dir = self.find_sensor('lego-ev3-color')
+            self.ensure_color_sensor_mode(dir, 'COL-AMBIENT')
             f = open('%s/value0' % dir, 'r')
             v = f.readline().strip()
             f.close()
