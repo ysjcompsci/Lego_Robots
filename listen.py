@@ -16,7 +16,12 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         if len(parts) == 4 and parts[0] == 'motor':
             print 'Run %s to %s at speed %s' % (parts[1], parts[2], parts[3])
             d = MediumMotor(parts[1])
-	    d.run_position_limited(int(parts[2]), int(parts[3]), absolute=False) 
+	    d.run_position_limited(int(parts[2]), int(parts[3]), absolute=False)
+        elif len(parts) == 2 and parts[0] == 'say':
+            phrase = parts[1]
+            phrase = phrase.replace('%20', ' ')
+            print 'Say %s' % phrase
+            os.system('espeak -a 200 -s 130 -v en-sc --stdout "%s" | aplay' % phrase)
 
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')

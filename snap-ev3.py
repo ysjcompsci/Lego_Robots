@@ -12,7 +12,7 @@ EV3_PORT = 8192
 EV3_CONNECTION = 'root@10.42.0.51'
 
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
-    def send_head(self):
+    def do_GET(self):
 	if self.path == '/snap-ev3':
             f = open('snap-ev3.xml', 'rb')
             self.send_response(200)
@@ -22,11 +22,16 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
-            return f
+            self.copyfile(f, self.wfile)
+            f.close()
         else:
-            SimpleHTTPServer.SimpleHTTPRequestHandler.send_head(self)
             urllib2.urlopen("http://10.42.0.51:%d%s" % (EV3_PORT, self.path), timeout=5).read()
-        
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            self.wfile.write('OK')
+            self.wfile.close()
+
 class TCPServer(SocketServer.TCPServer):
     def server_bind(self):
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

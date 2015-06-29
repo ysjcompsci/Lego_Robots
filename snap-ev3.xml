@@ -26,4 +26,25 @@
       </block>
     </script>
   </block-definition>
+  <block-definition category="control" s="speak %&apos;words&apos;" type="command">
+  <inputs>
+    <input type="%txt">hello</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/say/</l>
+		<block var="words"/>
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
 </blocks>
