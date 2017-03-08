@@ -8,8 +8,10 @@ import urllib2
 SNAP_PORT = 1330
 # Port for EV3 to listen on
 EV3_PORT = 8192
-# EV3 user ID and IP address
-EV3_CONNECTION = 'root@10.42.0.51'
+# EV3 user ID
+EV3_USER = 'robot'
+# EV3 IP address
+EV3_IP = '10.42.0.3'
 
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -25,7 +27,9 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.copyfile(f, self.wfile)
             f.close()
         else:
-            response = urllib2.urlopen("http://10.42.0.51:%d%s" % (EV3_PORT, self.path), timeout=5).read()
+            url = "http://%s:%d%s" % (EV3_IP, EV3_PORT, self.path)
+            print url
+            response = urllib2.urlopen(url, timeout=5).read()
             print '%s -> %s' % (self.path, response)
             self.send_response(200)
             self.send_header('Content-Type', 'application/octet-stream')
@@ -41,8 +45,8 @@ class TCPServer(SocketServer.TCPServer):
         self.socket.bind(self.server_address)
 
 print "Starting listener on EV3"
-os.system('scp listen.py %s:' % EV3_CONNECTION)
-os.system('ssh %s -- nohup python listen.py %d &' % (EV3_CONNECTION, EV3_PORT))
+#os.system('scp listen.py %s@%s:' % (EV3_USER, EV3_IP))
+#os.system('ssh %s@%s -- nohup python listen.py %d &' % (EV3_USER, EV3_IP, EV3_PORT))
 
 httpd = TCPServer(("", SNAP_PORT), Handler)
 print "http://snap.berkeley.edu/snapsource/snap.html#open:http://localhost:1330/snap-ev3"
