@@ -1,3 +1,4 @@
+from __future__ import print_function
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socketserver
 import socket
@@ -6,7 +7,8 @@ import sys
 import ev3dev.ev3 as ev3
 
 if len(sys.argv) != 2:
-    print>>sys.stderr,'Syntax: %s <port>' % (sys.argv[0])
+    def eprint(*args, **kwargs):
+        print(*args, file=sys.stderr, **kwargs)
     sys.exit(1)
 
 class Handler(BaseHTTPRequestHandler):
@@ -18,7 +20,7 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         f = open('%s/mode' % dir, 'w')
-        print>>f,mode
+        f.write(mode)
         f.close()
 
         self.color_sensor_mode = mode
@@ -27,8 +29,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-Type', 'text/plain')
         self.end_headers()
-        self.wfile.write(reply)
-        self.wfile.close()
+        self.wfile.write(bytes(reply, 'UTF-8'))
 
     def find_sensor(self, driver_name):
         for s in range(0, 4):
@@ -42,18 +43,25 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self): 
         parts = self.path[1:].split('/')
         print (parts)
-        if len(parts) == 4 and parts[0] == 'motor':
+        if len(parts) == 4 and parts[0] == 'mediummotor':
             print ('Run %s to %s at speed %s' % (parts[1], parts[2], parts[3]))
             d = ev3.MediumMotor('out' + parts[1])
-            d.run_timed(time_sp=3000, speed_sp=500)	    
+            d.run_timed(time_sp=int(parts[2]), speed_sp=int(parts[3]))	    
             #d.run_position_limited(int(parts[2]), int(parts[3]), absolute=False)
             self.respond('OK')
+        elif len(parts) == 4 and parts[0] == 'largemotor':
+            print ('Run %s to %s at speed %s' % (parts[1], parts[2], parts[3]))
+            d = ev3.LargeMotor('out' + parts[1])
+            d.run_timed(time_sp=int(parts[2]), speed_sp=int(parts[3]))	    
+            #d.run_position_limited(int(parts[2]), int(parts[3]), absolute=False)
+            self.respond('OK')
+
         elif len(parts) == 2 and parts[0] == 'say':
             phrase = parts[1]
             phrase = phrase.replace('%20', ' ')
             print ('Say %s' % phrase)
             os.system('espeak -a 200 -s 130 -v en-sc --stdout "%s" | aplay' % phrase)
-            self.respond('OK')
+            self.respond(bytes('OK', 'UTF-8'))
         elif len(parts) == 2 and parts[0] == 'ir-sensor' and parts[1] == 'proximity':
             dir = self.find_sensor('lego-ev3-ir')
             f = open('%s/value0' % dir, 'r')
@@ -73,6 +81,37 @@ class Handler(BaseHTTPRequestHandler):
             v = f.readline().strip()
             f.close()
             self.respond(v)
+        elif len(parts) == 3 and parts[0] == 'mediumtimed':
+            print('Run %s at speed %s' % (parts[1],parts[2]))
+            d = ev3.MediumMotor('out' + parts[1])
+            d.run_timed(time_sp=int(parts[2]), speed_sp=500)
+            self.respond('OK')
+        elif len(parts) == 3 and parts[0] == 'largetimed':
+            print('Run %s at speed %s' % (parts[1],parts[2]))
+            d = ev3.LargeMotor('out' + parts[1])
+            d.run_timed(time_sp=int(parts[2]), speed_sp=500)
+            self.respond('OK')
+        elif len(parts) == 2 and parts[0] == 'mediumon':
+            print('Run %s' % (parts[1]))
+            d = ev3.MediumMotor('out' + parts[1])
+            d.run_forever()
+            self.respond('OK')
+        elif len(parts) == 2 and parts[0] == 'largeon':
+            print('Run %s' % (parts[1]))
+            d = ev3.LargeMotor('out' + parts[1])
+            d.run_forever()
+            self.respond('OK')
+        elif len(parts) == 2 and parts[0] == 'mediumoff':
+            print('Stop %s' % (parts[1]))
+            d = ev3.MediumMotor('out' + parts[1])
+            d.stop()
+            self.respond('OK')
+        elif len(parts) == 2 and parts[0] == 'largeoff':
+            print('Stop %s' % (parts[1]))
+            d = ev3.LargeMotor('out' + parts[1])
+            d.stop()
+            self.respond('OK')
+
 
 class TCPServer(socketserver.TCPServer):
     def server_bind(self):

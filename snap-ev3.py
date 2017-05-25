@@ -16,6 +16,7 @@ EV3_IP = '10.42.0.3'
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
 	if self.path == '/snap-ev3':
+            print "Opening XML"
             f = open('snap-ev3.xml', 'rb')
             self.send_response(200)
             self.send_header("Content-type", 'text/xml')
@@ -45,8 +46,8 @@ class TCPServer(SocketServer.TCPServer):
         self.socket.bind(self.server_address)
 
 print "Starting listener on EV3"
-#os.system('scp listen.py %s@%s:' % (EV3_USER, EV3_IP))
-#os.system('ssh %s@%s -- nohup python listen.py %d &' % (EV3_USER, EV3_IP, EV3_PORT))
+os.system('scp listen.py %s@%s:' % (EV3_USER, EV3_IP))
+#os.system('ssh %s@%s -- nohup python3 listen.py %d &' % (EV3_USER, EV3_IP, EV3_PORT))
 
 httpd = TCPServer(("", SNAP_PORT), Handler)
 print "http://snap.berkeley.edu/snapsource/snap.html#open:http://localhost:1330/snap-ev3"

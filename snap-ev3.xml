@@ -1,7 +1,16 @@
 <blocks app="Snap! 4.0, http://snap.berkeley.edu" version="1">
-  <block-definition category="control" s="move motor %&apos;motor&apos; %&apos;degrees&apos; degrees at %&apos;speed&apos; speed" type="command">
+  <block-definition category="control" s="move largemotor %&apos;motor&apos; %&apos;milliseconds&apos; milliseconds at %&apos;speed&apos; speed" type="command">
     <inputs>
-      <input type="%txt">a</input>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
       <input type="%n">360</input>
       <input type="%n">100</input>
     </inputs>
@@ -12,10 +21,10 @@
 	    <block s="reportURL">
 	      <block s="reportJoinWords">
 		<list>
-		  <l>localhost:1330/motor/</l>
+		  <l>localhost:1330/largemotor/</l>
 		  <block var="motor"/>
 		  <l>/</l>
-		  <block var="degrees"/>
+		  <block var="milliseconds"/>
 		  <l>/</l>
 		  <block var="speed"/>
 		</list>
@@ -26,6 +35,299 @@
       </block>
     </script>
   </block-definition>
+  <block-definition category="control" s="move mediummotor %&apos;motor&apos; %&apos;milliseconds&apos; milliseconds at %&apos;speed&apos; speed" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+      <input type="%n">360</input>
+      <input type="%n">100</input>
+    </inputs>
+    <script>
+      <block s="doRun">
+	<block s="reifyReporter">
+	  <autolambda>
+	    <block s="reportURL">
+	      <block s="reportJoinWords">
+		<list>
+		  <l>localhost:1330/mediummotor/</l>
+		  <block var="motor"/>
+		  <l>/</l>
+		  <block var="milliseconds"/>
+		  <l>/</l>
+		  <block var="speed"/>
+		</list>
+	      </block>
+	    </block>
+	  </autolambda>
+	</block>
+      </block>
+    </script>
+  </block-definition>
+
+  <block-definition category="control" s="move mediummotor %&apos;motor&apos; %&apos;milliseconds&apos; milliseconds" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+      <input type="%n">360</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/mediumtimed/</l>
+		<block var="motor"/>
+		<l>/</l>
+		<block var = "milliseconds"/>     
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
+
+  <block-definition category="control" s="move largemotor %&apos;motor&apos; %&apos;milliseconds&apos; milliseconds" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+      <input type="%n">360</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/largetimed/</l>
+		<block var="motor"/>
+		<l>/</l>
+		<block var = "milliseconds"/>     
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
+
+
+  <block-definition category="control" s="turn on mediummotor %&apos;motor&apos;" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/mediumon/</l>
+		<block var="motor"/>
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
+
+  <block-definition category="control" s="turn off mediummotor %&apos;motor&apos;" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/mediumoff/</l>
+		<block var="motor"/>
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
+
+  <block-definition category="control" s="turn off largemotor %&apos;motor&apos;" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/largeoff/</l>
+		<block var="motor"/>
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
+
+
+  <block-definition category="control" s="turn on largemotor %&apos;motor&apos;" type="command">
+    <inputs>
+      <input type="%txt">A<options>A
+B
+C
+D
+E
+F
+G
+H
+</options>
+</input>
+  </inputs>
+  <script>
+    <block s="doRun">
+      <block s="reifyReporter">
+	<autolambda>
+	  <block s="reportURL">
+	    <block s="reportJoinWords">
+	      <list>
+		<l>localhost:1330/largeon/</l>
+		<block var="motor"/>
+	      </list>
+	    </block>
+	  </block>
+	</autolambda>
+      </block>
+    </block>
+  </script>
+  </block-definition>
+
+  <block-definition s="Being Touched?" type="reporter" category ="operators">
+  <script>
+   <block s="doIfElse">
+    <block s="reportEquals">
+     <custom-block s="touch sensor level"/>
+     <l>1</l>
+    </block>
+    <script>
+     <block s="doReport">
+      <l>True</l>
+     </block>
+    </script>
+    <script>
+     <block s="doReport">
+      <l>False</l>
+     </block>
+    </script>
+   </block>
+  </script>
+ </block-definition>
+
+<block-definition s="How Far Away?" type="reporter" category="operators">
+	<header/>
+	<code/>
+	<inputs/>
+	<script>
+		<block s="doIf">
+			<block s="reportLessThan">
+				<custom-block s="IR sensor proximity"/>
+				<l>33</l>
+			</block>
+			<script>
+				<block s="doReport">
+					<l>Close</l>
+				</block>
+			</script>
+		</block>
+		<block s="doIfElse">
+			<block s="reportAnd">
+				<block s="reportLessThan">
+					<custom-block s="IR sensor proximity"/>
+					<l>66</l>
+				</block>
+				<block s="reportLessThan">
+					<l>33</l>
+					<custom-block s="IR sensor proximity"/>
+				</block>
+			</block>
+			<script>
+				<block s="doReport">
+					<l>Medium</l>
+				</block>
+			</script>
+			<script>
+				<block s="doReport">
+					<l>Far Away</l>
+				</block>
+			</script>	
+		</block>
+	</script>
+</block-definition>
+
   <block-definition category="control" s="speak %&apos;words&apos;" type="command">
   <inputs>
     <input type="%txt">hello</input>
