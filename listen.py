@@ -4,7 +4,7 @@ import socketserver
 import socket
 import os
 import sys
-import ev3dev.ev3 as ev3
+import ev3dev as ev3
 
 if len(sys.argv) != 2:
     def eprint(*args, **kwargs):
@@ -118,6 +118,8 @@ class TCPServer(socketserver.TCPServer):
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind(self.server_address)
 
-httpd = TCPServer(("", int(sys.argv[1])), Handler)
+httpd = TCPServer(("", int(float(sys.argv[1]))), Handler)
 print ('EV3 ready.')
+
+print ('http://snap.berkeley.edu/snapsource/snap.html#open:http://localhost:1330/snap-ev3')
 httpd.serve_forever()
