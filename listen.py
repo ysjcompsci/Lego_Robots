@@ -4,7 +4,7 @@ import socketserver
 import socket
 import os
 import sys
-import ev3dev as ev3
+import ev3dev.ev3 as ev3
 
 if len(sys.argv) != 2:
     def eprint(*args, **kwargs):
