@@ -47,7 +47,7 @@ class TCPServer(SocketServer.TCPServer):
 
 print "Starting listener on EV3"
 os.system('scp listen.py %s@%s:' % (EV3_USER, EV3_IP))
-os.system('ssh %s@%s -- "nohup python3 listen.py %d > /dev/null 2>&1 &"' % (EV3_USER, EV3_IP, EV3_PORT))
+os.system('ssh %s@%s -- "nohup python3 listen.py %d > listen.log 2>&1 &"' % (EV3_USER, EV3_IP, EV3_PORT))
 
 print ('http://cs10.org/snap#open:http://localhost:1330/snap-ev3')
 httpd = TCPServer(("", SNAP_PORT), Handler)
