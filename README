@@ -1,0 +1,11 @@
+Run copy_keys.sh with
+
+bash copy_keys.sh
+
+When prompted enter the password "maker"
+
+Then run the startup script with
+
+bash script.sh
+
+Wait for the message "EV3 Ready." to be displayed, then go to the URL it gives you.
