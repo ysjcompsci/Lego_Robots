@@ -2,7 +2,7 @@ Run copy_keys.sh with
 
 bash copy_keys.sh
 
-When prompted enter the password "maker"
+When prompted enter the password "maker".  You only need to do this once.
 
 Then run the startup script with
 
