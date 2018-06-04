@@ -1,5 +1,6 @@
 #!/bin/bash
 #snap interface to the lego mindstorms robot installation
 
-sudo ifconfig enp0s26u1u4 10.42.0.1 up
+device=$(cat /proc/net/dev | grep enp0 | awk '{print $1}' | sed -e "s/://g")
+sudo ifconfig $device 10.42.0.1 up
 python snap-ev3.py
